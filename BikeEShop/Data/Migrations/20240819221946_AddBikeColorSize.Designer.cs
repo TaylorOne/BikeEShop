@@ -4,6 +4,7 @@ using BikeEShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BikeEShop.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240819221946_AddBikeColorSize")]
+    partial class AddBikeColorSize
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -151,35 +153,6 @@ namespace BikeEShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Colors");
-                });
-
-            modelBuilder.Entity("BikeEShop.Models.Inventory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("BikesId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ColorsId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SizesId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BikesId", "ColorsId");
-
-                    b.HasIndex("BikesId", "SizesId");
-
-                    b.ToTable("Inventory");
                 });
 
             modelBuilder.Entity("BikeEShop.Models.Size", b =>
@@ -431,25 +404,6 @@ namespace BikeEShop.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BikeEShop.Models.Inventory", b =>
-                {
-                    b.HasOne("BikeEShop.Models.BikeColor", "BikeColor")
-                        .WithMany("Inventory")
-                        .HasForeignKey("BikesId", "ColorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BikeEShop.Models.BikeSize", "BikeSize")
-                        .WithMany("Inventory")
-                        .HasForeignKey("BikesId", "SizesId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("BikeColor");
-
-                    b.Navigation("BikeSize");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -499,16 +453,6 @@ namespace BikeEShop.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BikeEShop.Models.BikeColor", b =>
-                {
-                    b.Navigation("Inventory");
-                });
-
-            modelBuilder.Entity("BikeEShop.Models.BikeSize", b =>
-                {
-                    b.Navigation("Inventory");
                 });
 #pragma warning restore 612, 618
         }
